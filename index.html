@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>陳冠瑄的網站</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 90%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 50px;
+            overflow: hidden; /* 確保內容不會超出容器 */
+        }
+        .services {
+            display: flex;
+            flex-direction: column; /* 垂直排列 */
+            align-items: center; /* 水平置中 */
+            gap: 20px; /* 兩個服務之間的間距 */
+        }
+        .service {
+            width: 100%; /* 讓服務佔據整個寬度 */
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .service h2 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            color: #555;
+        }
+        .service p {
+            font-size: 1.1em;
+            color: #777;
+            line-height: 1.4;
+        }
+        .service a {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .service a:hover {
+            background-color: #0056b3;
+        }
+        @media (min-width: 768px) {
+            .services {
+                flex-direction: row; /* 水平排列 */
+                justify-content: center; /* 水平置中 */
+            }
+            .service {
+                width: 48%; /* 每個服務佔據48%的寬度 */
+            }
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center;">陳冠瑄的網站</h1>
+        <div class="services">
+            <div class="service">
+                <h2>臺中市YouBike滿車站台</h2>
+                <p>查看滿車的站台。</p>
+                <a href="tc_youbike" target="_blank">前往網站</a>
+            </div>
+            <div class="service">
+                <h2>網頁2</h2>
+                <p>新增說明。</p>
+                <a href="unknown" target="_blank">前往網站</a>
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 20px;">
+            電子郵件：<a href="mailto:contact@tare.cc">contact@tare.cc</a>
+        </p>
+    </div>
+</body>
+</html>
