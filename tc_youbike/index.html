@@ -21,7 +21,7 @@
         window.onload = async () => {
             const stations = (await (await fetch('https://datacenter.taichung.gov.tw/swagger/OpenData/86dfad5c-540c-4479-bb7d-d7439d34eeb1')).json()).retVal;
             document.getElementById('stationList').innerHTML = stations.filter(s => s.bemp === '0' && s.sbi !== '0')
-                .map(s => `<li class="station"><h2>${s.sna}</h2><p>站點編號: ${s.sno}</p><p>地址: ${s.ar}</p><p>座標: (${s.lat}, ${s.lng})</p></li>`).join('');
+                .map(s => `<li class="station"><h2>${s.sna}</h2><p>站點編號: ${s.sno}</p><p>地址: ${s.ar}</p><p>座標：${s.lat}, ${s.lng}</p></li>`).join('');
         };
     </script>
 </body>
