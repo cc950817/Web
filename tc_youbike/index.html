@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>臺中市YouBike站滿車狀態</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #stationList {
+            margin: 20px;
+            padding: 0;
+            list-style: none;
+        }
+        .station {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+        .station h2 {
+            margin: 0 0 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>臺中市YouBike站滿車狀態</h1>
+    <ul id="stationList"></ul>
+
+    <script>
+        async function fetchData() {
+            const response = await fetch('https://datacenter.taichung.gov.tw/swagger/OpenData/86dfad5c-540c-4479-bb7d-d7439d34eeb1');
+            const data = await response.json();
+            console.log(data); // 打印數據到控制台以便檢查其結構
+            return data.retVal; // 根據 API 的返回結構調整
+        }
+
+        function displayStations(stations) {
+            const stationList = document.getElementById('stationList');
+            stationList.innerHTML = '';
+
+            stations.forEach(station => {
+                if (station.bemp === '0' && station.sbi !== '0') {  // 檢查可還車位為0且可借車位不為0
+                    const listItem = document.createElement('li');
+                    listItem.className = 'station';
+                    listItem.innerHTML = `
+                        <h2>${station.sna}</h2>
+                        <p>站點編號: ${station.sno}</p>
+                        <p>地址: ${station.ar}</p>
+                        <p>座標: (${station.lat}, ${station.lng})</p>
+                    `;
+                    stationList.appendChild(listItem);
+                }
+            });
+        }
+
+        async function init() {
+            const stations = await fetchData();
+            displayStations(stations);
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
