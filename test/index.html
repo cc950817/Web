@@ -1,1 +1,117 @@
-Test
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<div id="lunchApp">
+	 
+   	 <div v-if="info.data.length != 0">
+        		 
+    		 <label for="KitchenName">午餐供餐：</label>
+     		 <select id="KitchenName" style="font-size: 0.875em;" class="form-control form-control-sm" v-model="selectedBatchdataId">
+       		 <option  v-for="option in info.data" v-bind:value="option.BatchDataId">
+           		 {{option.KitchenName}}
+        		 
+       		 </option>
+     		 </select>
+     		 
+    		 <!-- selected: {{selectedBatchdataId}} -->
+  	 <hr style="margin: 0.5em;">      		 
+     		 
+    		 {{getBatchdata}}
+             		 
+      		 <!--顯示菜單  -->  	 
+      		 <div v-if="menu.data.length !=0" class="border-bottom" v-for="dish in menu.data">
+            		 <span v-if="dish.DishType !== undefined">{{dish.DishType}} :</span>  {{dish.DishName}}
+      		 </div>
+      		 <p style="margin: 0.5em;"> </p>
+    		 
+        	<button @click="queryDetail" type="button" class="shadow-sm bg-white rounded">查看詳細資料</button>
+   		 </div>  	 
+   		 
+   		 
+   		 <div v-else>
+       		 <span class="border-bottom" style="font-size: 1em; color:#3572f3;">本日無菜單<span>
+   		 </div>
+   	</div>
+      		 
+</div>
+
+
+<script>
+
+  let SchoolId = "64740580";
+  // ====================== script runs from here =======================
+  let Today=new Date();
+  let period=Today.getFullYear()+ "-" + (Today.getMonth()+1) + "-" + Today.getDate();
+  let url = "https://fatraceschool.k12ea.gov.tw/offered/meal?KitchenId=all&MenuType=1&period=" + period + "&SchoolId=" + SchoolId + '"';
+    
+  const { createApp } = Vue
+
+  createApp({
+    data() {
+      return {
+      
+		 info: {
+     		 'data':[]
+   		 },
+   		 menu: {
+     		 'data':[]    
+   		 },
+   		 selectedBatchdataId: '',
+      }
+    },
+    created: function() {
+  	   axios
+       		 .get(url)
+       		 .then(response => {
+           		 
+           		 this.info = response.data;    
+           		 //console.log("廠商:"+this.info.data.length);
+           		 if(this.info.data.length === 1){
+             		 this.selectedBatchdataId = this.info.data[0].BatchDataId;
+           		 } else {
+               		 this.selectedBatchdataId ="000000";
+                		 let vm = this;            		 
+                 		 
+              		 
+               		 this.info.data.forEach(item=>{
+                		 let dish = {};
+                		 dish.DishName = item.KitchenName;
+                		 vm.menu.data.push(dish);
+               		 })
+               		 console.log(vm.menu);
+            		 
+           		 }
+        		 });
+  	 
+    },
+    computed: {
+  	   getBatchdata: function(){
+        		 if(this.info.data.length !=0){          		 
+           		 this.getMenu();
+         		 
+       		 }
+    		 }
+    },
+    methods: {
+    
+			getMenu: function() {
+              		 //https://fatraceschool.k12ea.gov.tw/dish?BatchDataId=1600228898323523
+              		 if(this.selectedBatchdataId !== "000000"){
+               		 
+                       		 let url = "https://fatraceschool.k12ea.gov.tw/dish?BatchDataId=" + this.selectedBatchdataId;
+              		 axios
+                		 .get(url)
+                		 .then(response => {
+                    		 this.menu = response.data;                   		 
+                 		 })
+              		 }
+              		 
+     		 
+ 		 },
+ 		 queryDetail: function(){  
+			  let url = "https://fatraceschool.k12ea.gov.tw/frontend/search.html?school="+ SchoolId +"/" ;
+   		 window.open(url);  
+ 		 }
+    }
+  }).mount('#lunchApp')
+</script>
