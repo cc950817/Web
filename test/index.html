@@ -118,11 +118,9 @@
           }
         });
       },
-      computed: {
-        getBatchdata() {
-          if (this.info.data.length != 0) {
-            this.getMenu();
-          }
+      watch: {
+        selectedBatchdataId: function (newId, oldId) {
+          this.getMenu();
         }
       },
       methods: {
