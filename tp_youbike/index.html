@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>臺北市YouBike站滿車狀態</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        #stationList { margin: 20px; padding: 0; list-style: none; }
+        .station {
+            background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;
+            padding: 10px; margin-bottom: 5px; border-radius: 5px;
+        }
+        .station h2 { margin: 0 0 5px; }
+    </style>
+</head>
+<body>
+    <h1>臺北市YouBike站滿車狀態</h1>
+    <ul id="stationList"></ul>
+    <script>
+        window.onload = async () => {
+            const stations = (await (await fetch('https://tcgbusfs.blob.core.windows.net/dotapp/youbike/v2/youbike_immediate.json')).json()).retVal;
+            document.getElementById('stationList').innerHTML = stations.filter(s => s.bemp === '0' && s.sbi !== '0')
+                .map(s => `<li class="station"><h2>${s.sna}</h2><p>站點編號：${s.sno}</p><p>地址：${s.ar}</p><p>座標：${s.lat},${s.lng}</p></li>`).join('');
+        };
+    </script>
+</body>
+</html>
