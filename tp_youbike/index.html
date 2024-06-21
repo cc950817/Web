@@ -32,7 +32,7 @@
                 const stationList = document.getElementById('stationList');
                 stationList.innerHTML = '';
 
-                stations.filter(station => station.available_rent_bikes === 0)
+                stations.filter(station => station.available_return_bikes === 0)
                         .forEach(station => {
                             const stationItem = document.createElement('li');
                             stationItem.className = 'station';
