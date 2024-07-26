@@ -1,16 +1,43 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>找不到對應連結
-</title>
-    <meta content="width=device-width, initial-scale=1" name="viewport">
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>找不到對應連結</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            color: rgba(0,0,0,0.87);
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            margin: 48px auto;
+            max-width: 616px;
+            padding: 0 16px;
+            text-align: center;
+        }
+        .header {
+            font-size: 32px;
+            margin-bottom: 24px;
+        }
+    </style>
 </head>
-
-<body style="color: rgba(0,0,0,0.87); font-family: Arial,sans-serif; font-size: 16px; line-height: 24px; margin-top: 48px; margin: 0 auto; max-width: 616px; padding: 0 16px;">
-<div style="border-bottom: 1px solid rgba(0,0,0,0.1); font-family: Arial,sans-serif; font-size: 32px; font-weight: 350; line-height: 36px; margin: 24px 0 16px 0; padding: 0 0 16px 0;">
-    找不到對應連結
-</div>
-
-<p id="error_url">短網址 (https://twm.tw/) 不存在</p>
-
-<script>
-    document.getElementById("error_url").innerText = "短網址 (" + location.href + ") 不存在";
-</script></body></html>
+<body>
+    <div class="header">找不到對應連結</div>
+    <p id="error_url">短網址 不存在</p>
+    <script>
+        function getParameterByName(name) {
+            const url = window.location.href;
+            name = name.replace(/[\[\]]/g, '\\$&');
+            const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+            const results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+        
+        const originalUrl = getParameterByName('url');
+        if (originalUrl) {
+            document.getElementById("error_url").innerText = "短網址 (" + originalUrl + ") 不存在";
+        }
+    </script>
+</body>
+</html>
